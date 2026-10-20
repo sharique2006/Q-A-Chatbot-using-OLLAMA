@@ -11,9 +11,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ## Langsmith Tracking
-os.environ["LANGCHAIN_API_KEY"]=os.getenv("LANGCHAIN_API_KEY")
-os.environ["LANGCHAIN_TRACING_V2"]="true"
-os.environ["LANGCHAIN_PROJECT"]="Simple Q&A Chatbot With Ollama"
+
+import os
+
+# LangSmith Tracking
+langchain_api_key = os.getenv("LANGCHAIN_API_KEY")
+
+if langchain_api_key:
+    os.environ["LANGCHAIN_TRACING_V2"] = "true"
+    os.environ["LANGCHAIN_PROJECT"] = "Simple Q&A Chatbot With Ollama"
+else:
+    os.environ["LANGCHAIN_TRACING_V2"] = "false"
+    print("LangSmith tracing disabled: API key not configured.")
+
 
 ## Prompt Template
 prompt=ChatPromptTemplate.from_messages(
